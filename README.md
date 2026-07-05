@@ -11,6 +11,16 @@ Renders are fast (15–150 ms per card after fonts are loaded), which makes the
 library usable both at build time (static OG images) and at request time
 (dynamic OG endpoints on the proxy).
 
+## Install as an agent skill
+
+```bash
+npx skills add clawmama-run/card-studio -y
+```
+
+The repo root doubles as a skill (SKILL.md) — installing ships the full
+renderer; run the one-time setup inside the installed skill directory
+(`npm install && npm run build && npm run fonts`).
+
 ## Setup
 
 ```bash
