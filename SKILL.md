@@ -10,24 +10,28 @@ metadata:
 
 # Card Studio — 社交卡片图生成
 
-This skill ships with its own renderer (satori + resvg, no headless browser)
-— the skill directory is the full card-studio package. 13 templates × 16
-platform size presets × 12 themes, CJK-aware typography, `==keyword==`
+Renders cards with the open-source card-studio engine (satori + resvg, no
+headless browser) from github.com/clawmama-run/card-studio. 13 templates ×
+16 platform size presets × 12 themes, CJK-aware typography, `==keyword==`
 highlighting, emoji stickers, JSON-driven batch rendering for carousels.
 
 ## One-time setup
 
-Run inside this skill's directory (where this SKILL.md and `package.json`
-live). Skip when `dist/cli.js` and `fonts/manifest.json` already exist:
+Clone (or update) the public renderer repo, then build once. Skip when
+`$CARD_STUDIO_DIR/dist/cli.js` and `$CARD_STUDIO_DIR/fonts/manifest.json`
+already exist:
 
 ```bash
-cd <this-skill-dir>
+CARD_STUDIO_DIR="${CARD_STUDIO_DIR:-$HOME/.cache/card-studio}"
+git clone https://github.com/clawmama-run/card-studio "$CARD_STUDIO_DIR" 2>/dev/null \
+  || git -C "$CARD_STUDIO_DIR" pull --ff-only
+cd "$CARD_STUDIO_DIR"
 npm install          # satori + resvg (~30s)
 npm run build        # tsc → dist/
 npm run fonts        # downloads TTFs from Google Fonts (~60 MB, once)
 ```
 
-Font download and emoji stickers need outbound network. If installation or
+Clone, font download, and emoji stickers need outbound network. If clone or
 fonts fail, report it instead of retrying repeatedly.
 
 ## Rendering
@@ -35,7 +39,7 @@ fonts fail, report it instead of retrying repeatedly.
 Primary workflow — write a JSON spec, render, send the PNG back to the user:
 
 ```bash
-CLI="node <this-skill-dir>/dist/cli.js"
+CLI="node $CARD_STUDIO_DIR/dist/cli.js"
 cat > /tmp/card.json << 'EOF'
 {
   "template": "note",
@@ -106,7 +110,7 @@ the ClawMama logo:
 ```
 
 Full field/template/preset/theme reference and more example specs:
-`references/spec-reference.md`.
+`$CARD_STUDIO_DIR/references/spec-reference.md`.
 
 ## Verification
 
