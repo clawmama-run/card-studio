@@ -1,0 +1,4 @@
+dist/
+out/
+fonts/*.ttf
+fonts/*.otf
